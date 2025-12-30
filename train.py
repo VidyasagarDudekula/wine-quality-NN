@@ -31,15 +31,17 @@ print(f"Sample y data:- {y_train[0:5]}")
 model = nn.Sequential(
     nn.Linear(11, 20),
     nn.ReLU(),
+    nn.Dropout(0.2),
     nn.Linear(20, 20),
     nn.ReLU(),
+    nn.Dropout(0.1),
     nn.Linear(20, 15),
     nn.ReLU(),
     nn.Linear(15, 6),
 )
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
+optimizer = optim.Adam(model.parameters(), lr=0.001, weight_decay=1e-4)
 
 history = {'avg_loss': [], 'val_loss': []}
 dataset = TensorDataset(X_train, y_train)
@@ -60,7 +62,6 @@ for epoch in range(150):
         predictions = model(X_test)
         eval_loss = criterion(predictions, y_test).item()
         history['val_loss'].append(eval_loss)
-        
     if (epoch+1)%10==0:
         print(f"Epoch:- {epoch}, train loss:- {history['avg_loss'][-1]}, eval loss:- {eval_loss}")
 
