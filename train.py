@@ -69,3 +69,5 @@ for epoch in range(150):
 print("\n\n")
 print("Total History:-")
 print(history)
+
+torch.save(model, 'wine_qt_model.pth')
